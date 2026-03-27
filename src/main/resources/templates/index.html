@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CRM Regalías - Inicio</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+
+    <!-- Encabezado -->
+    <div class="header">
+        <h1>MegaSuper CRM</h1>
+        <p>Sistema de Gestión de Regalías</p>
+    </div>
+
+    <!-- Navbar mínima en login -->
+    <div class="navbar">
+        <a href="/">INICIO</a>
+    </div>
+
+    <!-- Contenido -->
+    <div class="content">
+
+        <h5>Bienvenido al Sistema de Regalías</h5>
+        <p>Lleve más y pague menos. Aproveche nuestras ofertas exclusivas para clientes registrados.</p>
+
+        <h5>Ofertas vigentes</h5>
+        <p>
+            Pantalones: <strong>4x3</strong> — lleve 4 y pague solo 3.<br>
+            Camisas: <strong>3x2</strong> — lleve 3 y pague solo 2.<br>
+            Zapatos: precio regular.
+        </p>
+
+        <h5>Horario de atención</h5>
+        <p>Lunes a Sábado de 8:00 AM a 8:00 PM. Tel: 2200-1111</p>
+
+        <!-- Formulario de login — solo visible si no hay sesión -->
+        <div class="login-area" th:if="${session.clienteId == null}">
+            <h3>INGRESO</h3>
+            <div th:if="${error}" class="error-message" th:text="${error}"></div>
+            <form action="/login" method="post">
+                <input type="text" name="clienteId" placeholder="Código de cliente" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Ingresar</button>
+            </form>
+            <p class="hint">Pruebe: usuario <strong>C001</strong> / clave <strong>1234</strong></p>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Todos los derechos reservados. 2024. MegaSuper CRM. San José, Costa Rica.</p>
+    </div>
+
+</div>
+</body>
+</html>

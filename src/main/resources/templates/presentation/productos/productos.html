@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CRM Regalías - Productos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+
+    <!-- Encabezado -->
+    <div class="header">
+        <h1>MegaSuper CRM</h1>
+        <p>Sistema de Gestión de Regalías</p>
+    </div>
+
+    <!-- Navbar — muestra nombre del cliente en sesión -->
+    <div class="navbar">
+        <a href="/">INICIO</a>
+        <a href="/productos">PRODUCTOS</a>
+        <a th:if="${session.clienteId != null}"
+           th:text="${session.clienteNombre}">Cliente</a>
+        <a href="/logout">Salir</a>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="content">
+
+        <h4>CATÁLOGO DE PRODUCTOS</h4>
+        <p>Seleccione una categoría y presione "Ir". Luego presione "Agregar" para añadir al carrito.</p>
+        <br>
+
+        <!-- =============================================
+             FILTRO POR CATEGORÍA
+             Equivalente al formulario de tipo en el Registro
+             ============================================= -->
+        <form action="/filtrar" method="get">
+            <label>Categoría:</label>
+            <select name="categoriaId" required>
+                <option value="">Seleccione una categoría</option>
+                <option th:each="cat : ${categorias}"
+                        th:value="${cat.id}"
+                        th:text="${cat.nombre} + (${cat.ofertaActiva} ? ' (' + ${cat.descripcionOferta} + ')' : '')"
+                        th:selected="${cat.id == categoriaSeleccionada}">
+                </option>
+            </select>
+            <button type="submit">Ir</button>
+        </form>
+        <br>
+
+        <!-- =============================================
+             TABLA DE PRODUCTOS FILTRADOS
+             Solo aparece si el cliente eligió una categoría
+             ============================================= -->
+        <div th:if="${productos != null and not #lists.isEmpty(productos)}">
+            <h3>Productos Disponibles</h3>
+
+            <!-- Aviso de oferta si la categoría seleccionada tiene una activa -->
+            <div th:each="cat : ${categorias}"
+                 th:if="${cat.id == categoriaSeleccionada and cat.ofertaActiva}">
+                <div class="oferta-banner">
+                    ¡Oferta activa! <strong th:text="${cat.descripcionOferta}"></strong>
+                    — lleve <span th:text="${cat.cantLleva}"></span>
+                    y pague solo <span th:text="${cat.cantPaga}"></span>.
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Producto</th>
+                    <th>Precio unitario</th>
+                    <th>Stock</th>
+                    <th>Agregar</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="prod : ${productos}">
+                    <td th:text="${prod.id}"></td>
+                    <td th:text="${prod.nombre}"></td>
+                    <td>₡ <span th:text="${#numbers.formatDecimal(prod.precio, 0, 'COMMA', 2, 'POINT')}"></span></td>
+                    <td th:text="${prod.stock}"></td>
+                    <td>
+                        <form action="/agregar" method="post" style="display:inline;">
+                            <input type="hidden" name="productoId" th:value="${prod.id}">
+                            <button type="submit" class="btn-agregar">+ Agregar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mensaje cuando no hay categoría seleccionada -->
+        <div th:if="${productos == null}">
+            <p class="hint">Seleccione una categoría para ver los productos disponibles.</p>
+        </div>
+
+        <br>
+        <!-- =============================================
+             CARRITO DEL CLIENTE (MI PEDIDO)
+             Equivalente a "Mis Documentos" del Registro
+             Aquí se muestran las regalías calculadas
+             ============================================= -->
+        <h3>Mi Carrito</h3>
+        <p>Detalle de su pedido. Puede agregar más unidades volviendo a presionar "Agregar".</p>
+        <br>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio unit.</th>
+                <th>Lleva</th>
+                <th>Paga</th>
+                <th>Regalías</th>
+                <th>Subtotal</th>
+                <th>Oferta</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="linea : ${carrito}">
+                <td th:text="${linea.producto.nombre}"></td>
+                <td>₡ <span th:text="${#numbers.formatDecimal(linea.producto.precio, 0, 'COMMA', 2, 'POINT')}"></span></td>
+                <td th:text="${linea.cantidad}"></td>
+                <td th:text="${linea.cantidadPaga}"></td>
+                <!-- Regalías: en verde si tiene, guión si no -->
+                <td>
+                    <span th:if="${linea.cantidadRegalo > 0}"
+                          class="badge-regalo"
+                          th:text="${linea.cantidadRegalo} + ' gratis'"></span>
+                    <span th:if="${linea.cantidadRegalo == 0}">—</span>
+                </td>
+                <td>₡ <span th:text="${#numbers.formatDecimal(linea.subtotal, 0, 'COMMA', 2, 'POINT')}"></span></td>
+                <td>
+                    <span th:if="${linea.ofertaAplicada}" class="badge-oferta">Con oferta</span>
+                    <span th:unless="${linea.ofertaAplicada}" class="badge-normal">Normal</span>
+                </td>
+            </tr>
+            <!-- Fila vacía si el carrito está limpio -->
+            <tr th:if="${carrito.isEmpty()}">
+                <td colspan="7" style="text-align:center; color:#888;">
+                    Su carrito está vacío. Agregue productos desde el catálogo.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Totales -->
+        <div class="total-section" th:if="${not carrito.isEmpty()}">
+            <div class="ahorro-line" th:if="${ahorro > 0}">
+                Ahorro por regalías: ₡ <span th:text="${#numbers.formatDecimal(ahorro, 0, 'COMMA', 2, 'POINT')}"></span>
+            </div>
+            <div class="total-line">
+                <strong>Total a pagar: ₡ <span th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')}"></span></strong>
+            </div>
+        </div>
+
+        <!-- Botón confirmar compra -->
+        <div th:if="${not carrito.isEmpty()}" style="margin-top: 20px;">
+            <form action="/confirmar" method="post">
+                <button type="submit" class="btn-confirmar">Confirmar Compra</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Todos los derechos reservados. 2024. MegaSuper CRM. San José, Costa Rica.</p>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,294 @@
+/* =============================================
+   CRM Regalías — Hoja de estilos principal
+   Misma estructura que el Registro Nacional
+   ============================================= */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+}
+
+/* ---- Encabezado ---- */
+.header {
+    background: #004c99;
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+
+.header h1 {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.header p {
+    font-size: 13px;
+    color: #c8dff5;
+    text-align: center;
+}
+
+/* ---- Navbar ---- */
+.navbar {
+    background: #003366;
+    padding: 12px 20px;
+    text-align: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 14px;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* ---- Contenido ---- */
+.content {
+    padding: 30px;
+    min-height: 400px;
+}
+
+h4 {
+    color: #003366;
+    margin-bottom: 8px;
+    font-size: 16px;
+    text-align: center;
+}
+
+h3 {
+    color: #003366;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+h5 {
+    color: #003366;
+    margin: 20px 0 6px 0;
+    text-align: center;
+}
+
+p {
+    text-align: center;
+    font-size: 13px;
+    color: #555;
+}
+
+/* ---- Formulario de filtro ---- */
+form label {
+    font-size: 13px;
+    color: #333;
+    margin-right: 8px;
+}
+
+form select {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 13px;
+    margin-right: 8px;
+}
+
+form button[type="submit"] {
+    background: #003366;
+    color: white;
+    padding: 7px 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+form button[type="submit"]:hover {
+    background: #004c99;
+}
+
+/* ---- Banner de oferta ---- */
+.oferta-banner {
+    background: #fff8e1;
+    border-left: 4px solid #f9a825;
+    padding: 10px 15px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: #5d4037;
+    border-radius: 0 4px 4px 0;
+}
+
+/* ---- Tablas ---- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+th {
+    background: #f0f0f0;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+    color: #333;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    color: #444;
+}
+
+/* ---- Botón agregar ---- */
+.btn-agregar {
+    background: #004c99;
+    color: white;
+    padding: 5px 12px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-agregar:hover {
+    background: #003366;
+}
+
+/* ---- Badges de estado ---- */
+.badge-regalo {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-oferta {
+    background: #e3f2fd;
+    color: #1565c0;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.badge-normal {
+    background: #f5f5f5;
+    color: #888;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+/* ---- Totales ---- */
+.total-section {
+    text-align: right;
+    margin-top: 10px;
+    padding: 10px 0;
+    border-top: 2px solid #eee;
+}
+
+.ahorro-line {
+    color: #2e7d32;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.total-line {
+    color: #003366;
+    font-size: 16px;
+}
+
+/* ---- Botón confirmar ---- */
+.btn-confirmar {
+    background: #2e7d32;
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-confirmar:hover {
+    background: #1b5e20;
+}
+
+/* ---- Login ---- */
+.login-area {
+    background: #f5f5f5;
+    padding: 24px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 30px;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-area h3 {
+    margin-bottom: 16px;
+    color: #003366;
+    text-align: center;
+}
+
+.login-area input {
+    width: 100%;
+    padding: 9px;
+    margin: 5px 0 14px 0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.login-area button {
+    background: #003366;
+    color: white;
+    padding: 9px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 14px;
+}
+
+.login-area button:hover {
+    background: #004c99;
+}
+
+.error-message {
+    color: #c62828;
+    margin-bottom: 10px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.hint {
+    font-size: 12px;
+    color: #888;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* ---- Footer ---- */
+.footer {
+    background: #003366;
+    padding: 15px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
+
+.footer p {
+    color: white;
+    font-size: 12px;
+}
